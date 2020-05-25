@@ -1,0 +1,31 @@
+{
+  "name": "@ng-builders/build",
+  "version": "0.0.0-development.0",
+  "description": "Custom ng builders",
+  "keywords": [
+    "ng",
+    "angular",
+    "builders"
+  ],
+  "homepage": "https://github.com/ng-builders/ng-builders#readme",
+  "bugs": {
+    "url": "https://github.com/ng-builders/ng-builders/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ng-builders/ng-builders.git"
+  },
+  "license": "MIT",
+  "author": "IKatsuba <katsuba.igor@gmail.com>",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@angular-devkit/architect": "^0.901.3",
+    "execa": "^4.0.0"
+  },
+  "builders": "./builders.json",
+  "publishConfig": {
+    "access": "public"
+  }
+}

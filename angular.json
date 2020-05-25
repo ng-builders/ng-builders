@@ -1,0 +1,203 @@
+{
+  "version": 1,
+  "projects": {
+    "sandbox": {
+      "projectType": "application",
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/sandbox",
+      "sourceRoot": "apps/sandbox/src",
+      "prefix": "ng-builders",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/sandbox",
+            "index": "apps/sandbox/src/index.html",
+            "main": "apps/sandbox/src/main.ts",
+            "polyfills": "apps/sandbox/src/polyfills.ts",
+            "tsConfig": "apps/sandbox/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "apps/sandbox/src/favicon.ico",
+              "apps/sandbox/src/assets"
+            ],
+            "styles": ["apps/sandbox/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/sandbox/src/environments/environment.ts",
+                  "with": "apps/sandbox/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "deploy": {
+          "builder": "./dist/libs/build:command",
+          "options": {
+            "command": "node -v"
+          }
+        },
+        "stepper": {
+          "builder": "./dist/libs/build:stepper",
+          "options": {
+            "targets": {
+              "serve": {
+                "target": "sandbox:serve"
+              },
+              "test": {
+                "target": "sandbox:test"
+              }
+            },
+            "steps": ["serve", "test"]
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "sandbox:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "sandbox:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "sandbox:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/sandbox/tsconfig.app.json",
+              "apps/sandbox/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/sandbox/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/sandbox/jest.config.js",
+            "tsConfig": "apps/sandbox/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "apps/sandbox/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "sandbox-e2e": {
+      "root": "apps/sandbox-e2e",
+      "sourceRoot": "apps/sandbox-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/sandbox-e2e/cypress.json",
+            "tsConfig": "apps/sandbox-e2e/tsconfig.e2e.json",
+            "devServerTarget": "sandbox:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "sandbox:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/sandbox-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/sandbox-e2e/**"]
+          }
+        }
+      }
+    },
+    "build": {
+      "root": "libs/build",
+      "sourceRoot": "libs/build/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/build/tsconfig.lib.json",
+              "libs/build/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/build/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/build/jest.config.js",
+            "tsConfig": "libs/build/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        },
+        "build": {
+          "builder": "@nrwl/node:package",
+          "options": {
+            "outputPath": "dist/libs/build",
+            "tsConfig": "libs/build/tsconfig.lib.json",
+            "packageJson": "libs/build/package.json",
+            "main": "libs/build/src/index.ts",
+            "assets": [
+              "*.md",
+              "libs/build/builders.json",
+              "libs/build/src/command/command-schema.json",
+              "libs/build/src/stepper/stepper-schema.json"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular",
+    "analytics": false
+  },
+  "schematics": {
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
+    }
+  },
+  "defaultProject": "sandbox"
+}

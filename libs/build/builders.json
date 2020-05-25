@@ -1,0 +1,15 @@
+{
+  "$schema": "../../@angular-devkit/architect/src/builders-schema.json",
+  "builders": {
+    "command": {
+      "implementation": "./command",
+      "schema": "./command-schema.json",
+      "description": "Command"
+    },
+    "stepper": {
+      "implementation": "./stepper",
+      "schema": "./stepper-schema.json",
+      "description": "Stepper"
+    }
+  }
+}
