@@ -51,4 +51,6 @@ export function runStepper(
   );
 }
 
-export default createBuilder(runStepper);
+export const StepperBuilder = createBuilder(runStepper);
+
+export default StepperBuilder;
