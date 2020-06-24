@@ -1,5 +1,9 @@
 # @ng-builders
 
+<p align="center">
+  <img src="./apps/sandbox/src/assets/logo.png" alt="Logo">
+</p>
+
 - @ng-builders/build:command
 
 ```json
