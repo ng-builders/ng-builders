@@ -178,8 +178,11 @@
             "assets": [
               "*.md",
               "libs/build/builders.json",
-              "libs/build/src/command/command-schema.json",
-              "libs/build/src/stepper/stepper-schema.json",
+              {
+                "glob": "**/schema.json",
+                "input": "libs/build/src",
+                "output": "./"
+              },
               {
                 "glob": "logo.png",
                 "input": "apps/sandbox/src/assets",

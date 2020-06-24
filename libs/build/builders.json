@@ -3,12 +3,12 @@
   "builders": {
     "command": {
       "implementation": "./command",
-      "schema": "./command-schema.json",
+      "schema": "./command/schema.json",
       "description": "Command"
     },
     "stepper": {
       "implementation": "./stepper",
-      "schema": "./stepper-schema.json",
+      "schema": "./stepper/schema.json",
       "description": "Stepper"
     }
   }
