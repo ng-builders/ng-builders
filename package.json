@@ -12,7 +12,7 @@
     "affected:libs": "nx affected:libs",
     "affected:lint": "nx affected:lint",
     "affected:test": "nx affected:test",
-    "build": "nx run-many",
+    "build": "nx run-many --target=build --all",
     "dep-graph": "nx dep-graph",
     "e2e": "ng e2e",
     "format": "nx format:write",
