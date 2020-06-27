@@ -1,10 +1,21 @@
 # @ng-builders
 
+![GitHub](https://img.shields.io/github/license/ng-builders/ng-builders)
+[![npm (scoped with tag)](https://img.shields.io/npm/v/@ng-builders/build/latest)](https://www.npmjs.com/package/@ng-builders/build)
+
+The repository contains custom Angular CLI builders for different tasks. Over time, their number will increase.
+
 <p align="center">
   <img src="./apps/sandbox/src/assets/logo.png" alt="Logo">
 </p>
 
-- @ng-builders/build:command
+## List of builders
+
+- [@ng-builders/build:command](#build-command)
+- [@ng-builders/build:stepper](#build-stepper)
+
+### [@ng-builders/build:command](#build-command)
+> The builder to run commands in the terminal
 
 ```json
 {
@@ -16,7 +27,9 @@
   }
 }
 ```
-- @ng-builders/build:stepper
+### [@ng-builders/build:stepper](#build-stepper)
+
+> A builder for sequentially launching the commands described in `angular.json`
 
 ```json
 {
