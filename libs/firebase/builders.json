@@ -1,0 +1,10 @@
+{
+  "$schema": "../../@angular-devkit/architect/src/builders-schema.json",
+  "builders": {
+    "deploy": {
+      "implementation": "./deploy",
+      "schema": "./deploy/schema.json",
+      "description": "Deploy code and assets to your Firebase project"
+    }
+  }
+}

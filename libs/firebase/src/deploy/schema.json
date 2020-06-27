@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "title": "Deploy",
+  "description": "Deploy",
+  "type": "object",
+  "properties": {
+    "public": {
+      "type": "string",
+      "description": "Override the Hosting public directory specified in firebase.json"
+    },
+    "message": {
+      "type": "string",
+      "description": "An optional message describing this deploy"
+    },
+    "only": {
+      "description": "Only deploy to specified targets (e.g. [\"hosting\", \"storage\"]). For functions, can specify filters with colons to scope function deploys to only those functions (e.g. [\"functions:func1\", \"functions:func2\"]). When filtering based on export groups (the exported module object keys), use dots to specify group names (e.g. [\"functions:group1.subgroup1\", \"functions:group2\"])",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "minLength": 1,
+          "items": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "except": {
+      "description": "Deploy to all targets except specified (e.g.\"database\")",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "minLength": 1,
+          "items": {
+            "type": "string"
+          }
+        }
+      ]
+    }
+  },
+  "additionalProperties": false
+}

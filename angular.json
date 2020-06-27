@@ -192,6 +192,55 @@
           }
         }
       }
+    },
+    "firebase": {
+      "root": "libs/firebase",
+      "sourceRoot": "libs/firebase/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/firebase/tsconfig.lib.json",
+              "libs/firebase/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/firebase/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/firebase/jest.config.js",
+            "tsConfig": "libs/firebase/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        },
+        "build": {
+          "builder": "@nrwl/node:package",
+          "options": {
+            "outputPath": "dist/libs/firebase",
+            "tsConfig": "libs/firebase/tsconfig.lib.json",
+            "packageJson": "libs/firebase/package.json",
+            "main": "libs/firebase/src/index.ts",
+            "assets": [
+              "*.md",
+              "libs/firebase/builders.json",
+              {
+                "glob": "**/schema.json",
+                "input": "libs/firebase/src",
+                "output": "./"
+              },
+              {
+                "glob": "logo.png",
+                "input": "apps/sandbox/src/assets",
+                "output": "apps/sandbox/src/assets"
+              }
+            ]
+          }
+        }
+      }
     }
   },
   "cli": {

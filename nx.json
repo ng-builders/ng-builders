@@ -28,6 +28,9 @@
     },
     "build": {
       "tags": ["build-library"]
+    },
+    "firebase": {
+      "tags": []
     }
   }
 }

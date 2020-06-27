@@ -1,7 +1,8 @@
 # @ng-builders
 
 ![GitHub](https://img.shields.io/github/license/ng-builders/ng-builders)
-[![npm (scoped with tag)](https://img.shields.io/npm/v/@ng-builders/build/latest)](https://www.npmjs.com/package/@ng-builders/build)
+[![npm (scoped with tag)](https://img.shields.io/npm/v/@ng-builders/build/latest?label=%40ng-builders%2Fbuild%40latest&logo=npm)](https://www.npmjs.com/package/@ng-builders/build)
+[![npm (scoped with tag)](https://img.shields.io/npm/v/@ng-builders/firebase/latest?label=%40ng-builders%2Ffirebase%40latest&logo=npm)](https://www.npmjs.com/package/@ng-builders/firebase)
 
 The repository contains custom Angular CLI builders for different tasks. Over time, their number will increase.
 
@@ -13,6 +14,7 @@ The repository contains custom Angular CLI builders for different tasks. Over ti
 
 - [@ng-builders/build:command](#user-content-ng-buildersbuildcommand)
 - [@ng-builders/build:stepper](#user-content-ng-buildersbuildstepper)
+- [@ng-builders/build:stepper](#user-content-ng-buildersfirebasedeploy)
 
 ### @ng-builders/build:command
 > The builder to run commands in the terminal
@@ -62,6 +64,19 @@ The repository contains custom Angular CLI builders for different tasks. Over ti
     "options": {
       "buildTarget": "app:build"
     }
+  }
+}
+```
+
+### @ng-builders/firebase:deploy
+
+> Deploy code and assets to your Firebase project
+
+```json
+{
+  "deploy": {
+    "builder": "@ng-builders/firebase:deploy",
+    "options": {}
   }
 }
 ```
