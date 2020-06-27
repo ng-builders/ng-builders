@@ -11,10 +11,10 @@ The repository contains custom Angular CLI builders for different tasks. Over ti
 
 ## List of builders
 
-- [@ng-builders/build:command](#build-command)
-- [@ng-builders/build:stepper](#build-stepper)
+- [@ng-builders/build:command](#user-content-ng-buildersbuildcommand)
+- [@ng-builders/build:stepper](#user-content-ng-buildersbuildstepper)
 
-### [@ng-builders/build:command](#build-command)
+### @ng-builders/build:command
 > The builder to run commands in the terminal
 
 ```json
@@ -27,7 +27,7 @@ The repository contains custom Angular CLI builders for different tasks. Over ti
   }
 }
 ```
-### [@ng-builders/build:stepper](#build-stepper)
+### @ng-builders/build:stepper
 
 > A builder for sequentially launching the commands described in `angular.json`
 
