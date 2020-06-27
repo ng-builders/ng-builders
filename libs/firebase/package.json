@@ -1,11 +1,13 @@
 {
-  "name": "@ng-builders/build",
+  "name": "@ng-builders/firebase",
   "version": "0.0.0-development.0",
-  "description": "Custom Angular CLI builders",
+  "description": "Custom Angular CLI builders for Firebase",
   "keywords": [
     "ng",
     "angular",
-    "builders"
+    "builders",
+    "firebase",
+    "deploy"
   ],
   "homepage": "https://github.com/ng-builders/ng-builders#readme",
   "bugs": {
@@ -22,7 +24,11 @@
   },
   "dependencies": {
     "@angular-devkit/architect": "^0.901.3",
-    "execa": "^4.0.0"
+    "execa": "^4.0.0",
+    "@ng-builders/build": "1.1.2"
+  },
+  "peerDependencies": {
+    "firebase-tools": "8.4.3"
   },
   "builders": "./builders.json",
   "publishConfig": {
