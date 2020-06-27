@@ -14,7 +14,7 @@ The repository contains custom Angular CLI builders for different tasks. Over ti
 
 - [@ng-builders/build:command](#user-content-ng-buildersbuildcommand)
 - [@ng-builders/build:stepper](#user-content-ng-buildersbuildstepper)
-- [@ng-builders/build:stepper](#user-content-ng-buildersfirebasedeploy)
+- [@ng-builders/firebase:deploy](#user-content-ng-buildersfirebasedeploy)
 
 ### @ng-builders/build:command
 > The builder to run commands in the terminal
