@@ -24,10 +24,10 @@
   },
   "dependencies": {
     "@angular-devkit/architect": "^0.901.3",
-    "execa": "^4.0.0"
+    "execa": "^4.0.0",
+    "@ng-builders/build": "1.1.2"
   },
   "peerDependencies": {
-    "@ng-builders/build": "1.1.2",
     "firebase-tools": "8.4.3"
   },
   "builders": "./builders.json",
