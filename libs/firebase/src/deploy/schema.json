@@ -41,6 +41,10 @@
           }
         }
       ]
+    },
+    "project": {
+      "description": "Firebase project ID or alias",
+      "type": "string"
     }
   },
   "additionalProperties": false

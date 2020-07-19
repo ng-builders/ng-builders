@@ -26,4 +26,9 @@ export interface Schema extends JsonObject {
    * Deploy to all targets except specified (e.g."database")
    */
   except?: string[] | string;
+
+  /**
+   * Firebase project ID or alias
+   */
+  project?: string;
 }
