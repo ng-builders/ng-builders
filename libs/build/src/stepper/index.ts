@@ -21,7 +21,9 @@ function buildStep(
     : of(null);
 
   if (!watch) {
-    delete overrides.watch;
+    try {
+      delete overrides.watch;
+    } catch (e) {}
   }
 
   return deps$.pipe(
