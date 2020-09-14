@@ -6,7 +6,7 @@ import {
   targetFromTargetString
 } from '@angular-devkit/architect';
 import { Schema, Target, Targets } from './schema';
-import { combineLatest, concat, noop, Observable, of, pipe } from 'rxjs';
+import { combineLatest, concat, noop, Observable, of } from 'rxjs';
 import { catchError, concatMap, map, take, tap } from 'rxjs/operators';
 
 function buildStep(
@@ -20,12 +20,17 @@ function buildStep(
     ? combineLatest(deps.map(depName => buildStep(depName, targets, context)))
     : of(null);
 
+  if (!watch) {
+    delete overrides.watch;
+  }
+
   return deps$.pipe(
     concatMap(() => {
-      return scheduleTargetAndForget(context, targetFromTargetString(target), {
-        watch,
-        ...overrides
-      });
+      return scheduleTargetAndForget(
+        context,
+        targetFromTargetString(target),
+        overrides
+      );
     }),
     watch ? tap(noop) : take(1)
   );
