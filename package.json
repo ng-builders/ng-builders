@@ -23,7 +23,7 @@
     "ng": "ng",
     "nx": "nx",
     "start": "ng serve",
-    "test": "ng test build",
+    "test": "nx run-many --target=test --all",
     "update": "ng update @nrwl/workspace",
     "workspace-schematic": "nx workspace-schematic",
     "prerelease": "npm run build",
