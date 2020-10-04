@@ -24,6 +24,12 @@
         "pkgRoot": "./dist/libs/firebase"
       }
     ],
+    [
+      "@semantic-release/npm",
+      {
+        "pkgRoot": "./dist/libs/shared-library"
+      }
+    ],
     "@semantic-release/github"
   ]
 }

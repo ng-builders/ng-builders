@@ -1,0 +1,22 @@
+{
+  "name": "@ng-builders/shared-library",
+  "version": "0.0.0-development.0",
+  "description": "Custom Angular CLI builder for @tinkoff/shared-library-webpack-plugin",
+  "homepage": "https://github.com/ng-builders/ng-builders#readme",
+  "bugs": {
+    "url": "https://github.com/ng-builders/ng-builders/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ng-builders/ng-builders.git"
+  },
+  "license": "MIT",
+  "author": "IKatsuba <katsuba.igor@gmail.com>",
+  "dependencies": {
+    "@tinkoff/shared-library-webpack-plugin": "1.0.0-beta.8"
+  },
+  "builders": "./builders.json",
+  "publishConfig": {
+    "access": "public"
+  }
+}

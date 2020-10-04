@@ -241,6 +241,42 @@
           }
         }
       }
+    },
+    "shared-library": {
+      "root": "libs/shared-library",
+      "sourceRoot": "libs/shared-library/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared-library/tsconfig.lib.json",
+              "libs/shared-library/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/shared-library/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared-library/jest.config.js",
+            "tsConfig": "libs/shared-library/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        },
+        "build": {
+          "builder": "@nrwl/node:package",
+          "options": {
+            "outputPath": "dist/libs/shared-library",
+            "tsConfig": "libs/shared-library/tsconfig.lib.json",
+            "packageJson": "libs/shared-library/package.json",
+            "main": "libs/shared-library/src/index.ts",
+            "assets": ["libs/shared-library/*.md"]
+          }
+        }
+      }
     }
   },
   "cli": {
