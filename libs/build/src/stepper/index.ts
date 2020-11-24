@@ -49,9 +49,6 @@ export function runStepper(
   context: BuilderContext
 ): BuilderOutputLike {
   return buildSteps(input, context).pipe(
-    map(() => ({
-      success: true
-    })),
     catchError(error => {
       return of({ error: error.toString(), success: false });
     })
