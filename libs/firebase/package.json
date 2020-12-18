@@ -23,12 +23,12 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@angular-devkit/architect": "^0.901.3",
     "execa": "^4.0.0",
     "@ng-builders/build": "1.1.2"
   },
   "peerDependencies": {
-    "firebase-tools": "8.4.3"
+    "firebase-tools": ">8.4.3",
+    "@angular-devkit/architect": ">0.901.3"
   },
   "builders": "./builders.json",
   "publishConfig": {

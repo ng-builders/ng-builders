@@ -21,8 +21,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@angular-devkit/architect": "^0.901.3",
     "execa": "^4.0.0"
+  },
+  "peerDependencies": {
+    "@angular-devkit/architect": ">0.901.3"
   },
   "builders": "./builders.json",
   "publishConfig": {
