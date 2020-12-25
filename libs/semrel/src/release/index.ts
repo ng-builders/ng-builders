@@ -8,7 +8,7 @@ import semanticRelease from 'semantic-release';
 import { WritableStreamBuffer } from 'stream-buffers';
 
 export function runRelease(
-  { npm: { pkgRoot } }: Schema,
+  { npm: { pkgRoot }, dryRun }: Schema,
   context: BuilderContext
 ): BuilderOutputLike {
   const { project } = context.target;
@@ -28,7 +28,7 @@ export function runRelease(
         { name: 'alpha', prerelease: true }
       ],
       extends: undefined,
-      dryRun: true,
+      dryRun,
       plugins: [
         [
           '@semantic-release/commit-analyzer',

@@ -12,6 +12,10 @@
         }
       },
       "required": ["pkgRoot"]
+    },
+    "dryRun": {
+      "type": "boolean",
+      "default": false
     }
   },
   "required": ["npm"],
