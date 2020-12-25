@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - master
-      - alpha
+      - beta
 
 jobs:
   release:
