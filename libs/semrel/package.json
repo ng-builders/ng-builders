@@ -1,5 +1,5 @@
 {
-  "name": "@ng-builders/semantic-release",
+  "name": "@ng-builders/semrel",
   "version": "0.0.0-development.0",
   "description": "Custom Angular CLI builders",
   "keywords": [

@@ -54,19 +54,36 @@ export function runRelease(
       stderr: stderrBuffer as any,
       stdout: stdoutBuffer as any
     }
-  ).then(result => {
-    if (result) {
-      const {
-        nextRelease: { version }
-      } = result;
+  )
+    .then(result => {
+      if (result) {
+        const {
+          nextRelease: { version }
+        } = result;
 
-      context.logger.info(
-        `The '${project}' project released with version ${version}`
-      );
-    }
+        context.logger.info(
+          `The '${project}' project released with version ${version}`
+        );
+      } else {
+        context.logger.info(`No new release for the '${project}' project`);
+      }
 
-    return { success: true };
-  });
+      const errors = stderrBuffer.getContentsAsString('utf8');
+
+      if (errors) {
+        context.logger.error(errors);
+      }
+
+      return { success: true };
+    })
+    .catch(err => {
+      context.logger.error(err);
+
+      return {
+        success: false,
+        error: `The automated release failed with ${err}`
+      };
+    });
 }
 
 export const FirebaseDeployBuilder = createBuilder(runRelease);
