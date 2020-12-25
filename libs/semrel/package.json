@@ -23,7 +23,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "semantic-release": "^17.0.7"
+    "semantic-release": "^17.0.7",
+    "stream-buffers": "^3.0.2"
   },
   "peerDependencies": {
     "@angular-devkit/architect": ">0.901.3"
