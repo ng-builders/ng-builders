@@ -168,6 +168,14 @@
             "passWithNoTests": true
           }
         },
+        "release": {
+          "builder": "./dist/libs/semrel:release",
+          "options": {
+            "npm": {
+              "pkgRoot": "./dist/libs/build"
+            }
+          }
+        },
         "build": {
           "builder": "@nrwl/node:package",
           "options": {
@@ -217,6 +225,14 @@
             "passWithNoTests": true
           }
         },
+        "release": {
+          "builder": "./dist/libs/semrel:release",
+          "options": {
+            "npm": {
+              "pkgRoot": "./dist/libs/firebase"
+            }
+          }
+        },
         "build": {
           "builder": "@nrwl/node:package",
           "options": {
@@ -230,6 +246,63 @@
               {
                 "glob": "**/schema.json",
                 "input": "libs/firebase/src",
+                "output": "./"
+              },
+              {
+                "glob": "logo.png",
+                "input": "apps/sandbox/src/assets",
+                "output": "apps/sandbox/src/assets"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "semrel": {
+      "root": "libs/semrel",
+      "sourceRoot": "libs/semrel/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/semrel/tsconfig.lib.json",
+              "libs/semrel/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/semrel/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/semrel/jest.config.js",
+            "tsConfig": "libs/semrel/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        },
+        "release": {
+          "builder": "./dist/libs/semrel:release",
+          "options": {
+            "npm": {
+              "pkgRoot": "./dist/libs/semrel"
+            }
+          }
+        },
+        "build": {
+          "builder": "@nrwl/node:package",
+          "options": {
+            "outputPath": "dist/libs/semrel",
+            "tsConfig": "libs/semrel/tsconfig.lib.json",
+            "packageJson": "libs/semrel/package.json",
+            "main": "libs/semrel/src/index.ts",
+            "assets": [
+              "*.md",
+              "libs/semrel/builders.json",
+              {
+                "glob": "**/schema.json",
+                "input": "libs/semrel/src",
                 "output": "./"
               },
               {
