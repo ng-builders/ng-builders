@@ -28,7 +28,7 @@ export function runRelease(
         { name: 'alpha', prerelease: true }
       ],
       extends: undefined,
-      dryRun: true,
+      dryRun,
       plugins: [
         [
           '@semantic-release/commit-analyzer',
