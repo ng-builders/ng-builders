@@ -4,14 +4,14 @@ import {
   createBuilder
 } from '@angular-devkit/architect';
 import { Schema } from './schema';
-import semanticRelease from 'semantic-release';
+import semanticRelease, { Commit } from 'semantic-release';
 import { WritableStreamBuffer } from 'stream-buffers';
 
 export function runRelease(
   { npm: { pkgRoot }, dryRun }: Schema,
-  context: BuilderContext
+  builderContext: BuilderContext
 ): BuilderOutputLike {
-  const { project } = context.target;
+  const { project } = builderContext.target;
 
   const stdoutBuffer = new WritableStreamBuffer();
   const stderrBuffer = new WritableStreamBuffer();
@@ -28,7 +28,7 @@ export function runRelease(
         { name: 'alpha', prerelease: true }
       ],
       extends: undefined,
-      dryRun,
+      dryRun: true,
       plugins: [
         [
           '@semantic-release/commit-analyzer',
@@ -43,7 +43,94 @@ export function runRelease(
             }
           }
         ],
-        '@semantic-release/release-notes-generator',
+        [
+          '@semantic-release/release-notes-generator',
+          {
+            writerOpts: {
+              transform(commit, context): void | Commit {
+                let discard = true;
+                const issues = [];
+
+                commit.notes.forEach(note => {
+                  note.title = `BREAKING CHANGES`;
+                  discard = false;
+                });
+
+                if (commit.type === `feat`) {
+                  commit.type = `Features`;
+                } else if (commit.type === `fix`) {
+                  commit.type = `Bug Fixes`;
+                } else if (commit.type === `perf`) {
+                  commit.type = `Performance Improvements`;
+                } else if (commit.type === `revert` || commit.revert) {
+                  commit.type = `Reverts`;
+                } else if (discard) {
+                  return;
+                } else if (commit.type === `docs`) {
+                  commit.type = `Documentation`;
+                } else if (commit.type === `style`) {
+                  commit.type = `Styles`;
+                } else if (commit.type === `refactor`) {
+                  commit.type = `Code Refactoring`;
+                } else if (commit.type === `test`) {
+                  commit.type = `Tests`;
+                } else if (commit.type === `build`) {
+                  commit.type = `Build System`;
+                } else if (commit.type === `ci`) {
+                  commit.type = `Continuous Integration`;
+                }
+
+                if (commit.scope === `*`) {
+                  commit.scope = ``;
+                }
+
+                if (typeof commit.hash === `string`) {
+                  commit.shortHash = commit.hash.substring(0, 7);
+                }
+
+                if (typeof commit.subject === `string`) {
+                  let url = context.repository
+                    ? `${context.host}/${context.owner}/${context.repository}`
+                    : context.repoUrl;
+                  if (url) {
+                    url = `${url}/issues/`;
+                    // Issue URLs.
+                    commit.subject = commit.subject.replace(
+                      /#([0-9]+)/g,
+                      (_, issue) => {
+                        issues.push(issue);
+                        return `[#${issue}](${url}${issue})`;
+                      }
+                    );
+                  }
+                  if (context.host) {
+                    // User URLs.
+                    commit.subject = commit.subject.replace(
+                      /\B@([a-z0-9](?:-?[a-z0-9/]){0,38})/g,
+                      (_, username) => {
+                        if (username.includes('/')) {
+                          return `@${username}`;
+                        }
+
+                        return `[@${username}](${context.host}/${username})`;
+                      }
+                    );
+                  }
+                }
+
+                commit.references = commit.references.filter(reference => {
+                  return issues.indexOf(reference.issue) === -1;
+                });
+
+                if (commit.scope !== project && commit.scope !== '') {
+                  return;
+                }
+
+                return commit;
+              }
+            }
+          }
+        ],
         ['@semantic-release/npm', { pkgRoot }],
         '@semantic-release/github'
       ]
@@ -61,23 +148,28 @@ export function runRelease(
           nextRelease: { version }
         } = result;
 
-        context.logger.info(
+        builderContext.logger.info(
           `The '${project}' project released with version ${version}`
         );
+        builderContext.logger.info(
+          stdoutBuffer.getContentsAsString() as string
+        );
       } else {
-        context.logger.info(`No new release for the '${project}' project`);
+        builderContext.logger.info(
+          `No new release for the '${project}' project`
+        );
       }
 
       const errors = stderrBuffer.getContentsAsString('utf8');
 
       if (errors) {
-        context.logger.error(errors);
+        builderContext.logger.error(errors);
       }
 
       return { success: true };
     })
     .catch(err => {
-      context.logger.error(err);
+      builderContext.logger.error(err);
 
       return {
         success: false,
