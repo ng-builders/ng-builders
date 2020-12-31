@@ -10,14 +10,12 @@
         "pkgRoot": {
           "type": "string"
         }
-      },
-      "required": ["pkgRoot"]
+      }
     },
     "dryRun": {
       "type": "boolean",
       "default": false
     }
   },
-  "required": ["npm"],
   "additionalProperties": false
 }

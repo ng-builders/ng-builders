@@ -1,20 +1,35 @@
-import {
-  BuilderContext,
-  BuilderOutputLike,
-  createBuilder
-} from '@angular-devkit/architect';
+import { BuilderContext, createBuilder } from '@angular-devkit/architect';
 import { Schema } from './schema';
 import semanticRelease, { Commit } from 'semantic-release';
 import { WritableStreamBuffer } from 'stream-buffers';
+import { BuilderOutput } from '@angular-devkit/architect/src/api';
 
-export function runRelease(
+export async function runRelease(
   { npm: { pkgRoot }, dryRun }: Schema,
   builderContext: BuilderContext
-): BuilderOutputLike {
+): Promise<BuilderOutput> {
   const { project } = builderContext.target;
+
+  const { outputPath } = await builderContext
+    .getTargetOptions({
+      project,
+      target: 'build'
+    })
+    .catch(() => ({ outputPath: null }));
+
+  if (!outputPath && !pkgRoot) {
+    return {
+      success: false,
+      error: `Builder can't detect output path for the '${project}' project automatically. Please, provide the 'npm.pkgRoot' option`
+    };
+  }
 
   const stdoutBuffer = new WritableStreamBuffer();
   const stderrBuffer = new WritableStreamBuffer();
+
+  builderContext.logger.info(
+    `The directory ${outputPath ?? pkgRoot} will be used for publishing`
+  );
 
   return semanticRelease(
     {
@@ -130,9 +145,9 @@ export function runRelease(
               }
             }
           }
-        ],
-        ['@semantic-release/npm', { pkgRoot }],
-        '@semantic-release/github'
+        ]
+        // ['@semantic-release/npm', { pkgRoot: outputPath ?? pkgRoot }],
+        // '@semantic-release/github'
       ]
     },
     {
@@ -150,9 +165,6 @@ export function runRelease(
 
         builderContext.logger.info(
           `The '${project}' project released with version ${version}`
-        );
-        builderContext.logger.info(
-          stdoutBuffer.getContentsAsString() as string
         );
       } else {
         builderContext.logger.info(
@@ -173,7 +185,7 @@ export function runRelease(
 
       return {
         success: false,
-        error: `The automated release failed with ${err}`
+        error: `The automated release failed with error: ${err}`
       };
     });
 }
