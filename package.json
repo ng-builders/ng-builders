@@ -74,7 +74,7 @@
     "semantic-release": "^17.0.7",
     "stream-buffers": "^3.0.2",
     "ts-jest": "25.2.1",
-    "ts-node": "~7.0.0",
+    "ts-node": "~9.1.1",
     "tslint": "~6.0.0",
     "typescript": "~3.8.3"
   }
