@@ -145,9 +145,9 @@ export async function runRelease(
               }
             }
           }
-        ]
-        // ['@semantic-release/npm', { pkgRoot: outputPath ?? pkgRoot }],
-        // '@semantic-release/github'
+        ],
+        ['@semantic-release/npm', { pkgRoot: outputPath ?? pkgRoot }],
+        '@semantic-release/github'
       ]
     },
     {
