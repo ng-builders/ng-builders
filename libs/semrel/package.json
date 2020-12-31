@@ -1,0 +1,36 @@
+{
+  "name": "@ng-builders/semrel",
+  "version": "0.0.0-development.0",
+  "description": "Custom Angular CLI builders",
+  "keywords": [
+    "ng",
+    "angular",
+    "builders",
+    "semantic-release",
+    "semrel"
+  ],
+  "homepage": "https://github.com/ng-builders/ng-builders#readme",
+  "bugs": {
+    "url": "https://github.com/ng-builders/ng-builders/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ng-builders/ng-builders.git"
+  },
+  "license": "MIT",
+  "author": "IKatsuba <katsuba.igor@gmail.com>",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "semantic-release": "^17.0.7",
+    "stream-buffers": "^3.0.2"
+  },
+  "peerDependencies": {
+    "@angular-devkit/architect": ">0.901.3"
+  },
+  "builders": "./builders.json",
+  "publishConfig": {
+    "access": "public"
+  }
+}

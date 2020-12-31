@@ -17,7 +17,8 @@
     "baseUrl": ".",
     "paths": {
       "@ng-builders/build": ["libs/build/src/index.ts"],
-      "@ng-builders/firebase": ["libs/firebase/src/index.ts"]
+      "@ng-builders/firebase": ["libs/firebase/src/index.ts"],
+      "@ng-builders/semantic-release": ["libs/semantic-release/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

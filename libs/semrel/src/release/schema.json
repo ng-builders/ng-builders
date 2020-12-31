@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "title": "Deploy",
+  "description": "Deploy",
+  "type": "object",
+  "properties": {
+    "npm": {
+      "type": "object",
+      "properties": {
+        "pkgRoot": {
+          "type": "string"
+        }
+      }
+    },
+    "dryRun": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "additionalProperties": false
+}
