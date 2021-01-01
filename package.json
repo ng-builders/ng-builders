@@ -63,7 +63,7 @@
     "@types/semantic-release": "^17.2.0",
     "@types/stream-buffers": "^3.0.3",
     "codelyzer": "~6.0.1",
-    "cypress": "^4.1.0",
+    "cypress": "^4.12.1",
     "dotenv": "6.2.0",
     "eslint": "7.16.0",
     "execa": "^4.0.0",
