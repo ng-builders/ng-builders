@@ -23,7 +23,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "execa": "^4.0.0",
+    "execa": "^5.0.0",
     "@ng-builders/build": "1.1.2"
   },
   "peerDependencies": {
