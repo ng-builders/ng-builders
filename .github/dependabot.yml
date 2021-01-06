@@ -10,9 +10,40 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    assignees:
+      - "IKatsuba"
 
   # Maintain dependencies for npm
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "daily"
+    assignees:
+      - "IKatsuba"
+
+
+  # Maintain dependencies for npm
+  - package-ecosystem: "npm"
+    directory: "/libs/build"
+    schedule:
+      interval: "daily"
+    assignees:
+      - "IKatsuba"
+
+
+  # Maintain dependencies for npm
+  - package-ecosystem: "npm"
+    directory: "/libs/firebase"
+    schedule:
+      interval: "daily"
+    assignees:
+      - "IKatsuba"
+      
+
+  # Maintain dependencies for npm
+  - package-ecosystem: "npm"
+    directory: "/semrel"
+    schedule:
+      interval: "daily"
+    assignees:
+      - "IKatsuba"
