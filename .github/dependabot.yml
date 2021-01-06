@@ -42,7 +42,7 @@ updates:
 
   # Maintain dependencies for npm
   - package-ecosystem: "npm"
-    directory: "/semrel"
+    directory: "/libs/semrel"
     schedule:
       interval: "daily"
     assignees:
