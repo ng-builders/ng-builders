@@ -4,7 +4,7 @@
 
 The repository contains custom Angular CLI builders for different tasks. Over time, their number will increase.
 
-![Logo](.gitbook/assets/logo.png)
+![](.gitbook/assets/logo.png)
 
 ## List of builders
 
