@@ -67,7 +67,7 @@
     "dotenv": "8.2.0",
     "eslint": "7.17.0",
     "execa": "^5.0.0",
-    "firebase-tools": "^9.1.1",
+    "firebase-tools": "^9.1.2",
     "jest": "25.5.4",
     "jest-preset-angular": "8.2.0",
     "prettier": "1.19.1",
