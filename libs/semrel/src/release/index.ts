@@ -153,7 +153,10 @@ export async function runRelease(
             successComment: `:tada: This \${issue.pull_request ? 'pull request' : 'issue'} is included in version ${project}@\${nextRelease.version} :tada:
 
 The release is available on [GitHub release](<github_release_url>)`,
-            releasedLabels: `${project} is released<%= nextRelease.channel ? " on @\${nextRelease.channel}" : "" %>`
+            releasedLabels: [
+              `released<%= nextRelease.channel ? " on @\${nextRelease.channel}" : "" %>`,
+              project
+            ]
           }
         ]
       ]
