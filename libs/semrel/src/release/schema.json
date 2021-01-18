@@ -15,6 +15,10 @@
     "dryRun": {
       "type": "boolean",
       "default": false
+    },
+    "publishable": {
+      "type": "boolean",
+      "default": true
     }
   },
   "additionalProperties": false
