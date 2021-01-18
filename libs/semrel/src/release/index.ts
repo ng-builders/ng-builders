@@ -1,11 +1,11 @@
 import { BuilderContext, createBuilder } from '@angular-devkit/architect';
 import { Schema } from './schema';
-import semanticRelease, { Commit } from 'semantic-release';
+import semanticRelease, { Commit, PluginSpec } from 'semantic-release';
 import { WritableStreamBuffer } from 'stream-buffers';
 import { BuilderOutput } from '@angular-devkit/architect/src/api';
 
 export async function runRelease(
-  { npm: { pkgRoot }, dryRun }: Schema,
+  { npm: { pkgRoot }, dryRun, publishable }: Schema,
   builderContext: BuilderContext
 ): Promise<BuilderOutput> {
   const { project } = builderContext.target;
@@ -17,19 +17,21 @@ export async function runRelease(
     })
     .catch(() => ({ outputPath: null }));
 
-  if (!outputPath && !pkgRoot) {
+  const publishPath = outputPath ?? pkgRoot;
+
+  if (publishable && !publishPath) {
     return {
       success: false,
       error: `Builder can't detect output path for the '${project}' project automatically. Please, provide the 'npm.pkgRoot' option`
     };
+  } else if (publishable) {
+    builderContext.logger.info(
+      `The directory ${publishPath} will be used for publishing`
+    );
   }
 
   const stdoutBuffer = new WritableStreamBuffer();
   const stderrBuffer = new WritableStreamBuffer();
-
-  builderContext.logger.info(
-    `The directory ${outputPath ?? pkgRoot} will be used for publishing`
-  );
 
   return semanticRelease(
     {
@@ -146,7 +148,9 @@ export async function runRelease(
             }
           }
         ],
-        ['@semantic-release/npm', { pkgRoot: outputPath ?? pkgRoot }],
+        publishable
+          ? ['@semantic-release/npm', { pkgRoot: publishPath }]
+          : null,
         [
           '@semantic-release/github',
           {
@@ -159,7 +163,7 @@ The release is available on [GitHub release](<github_release_url>)`,
             ]
           }
         ]
-      ]
+      ].filter(plugin => !!plugin) as PluginSpec[]
     },
     {
       env: { ...process.env },
