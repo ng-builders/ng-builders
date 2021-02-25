@@ -41,7 +41,7 @@
     "@angular/router": "^9.1.0",
     "@nrwl/angular": "9.2.3",
     "core-js": "^3.9.0",
-    "rxjs": "^6.6.3",
+    "rxjs": "^6.6.6",
     "zone.js": "^0.10.2"
   },
   "devDependencies": {
