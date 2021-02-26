@@ -3,11 +3,47 @@ import { Schema } from './schema';
 import semanticRelease, { Commit, PluginSpec } from 'semantic-release';
 import { WritableStreamBuffer } from 'stream-buffers';
 import { BuilderOutput } from '@angular-devkit/architect/src/api';
+import { isObject } from 'util';
+
+const GITLAB_PACKAGE_NAME = '@semantic-release/gitlab';
+const GITHUB_PACKAGE_NAME = '@semantic-release/github';
+
+function getPlatformPlugin(
+  { gitlab }: Schema,
+  builderContext: BuilderContext
+): PluginSpec {
+  if (gitlab === true) {
+    return GITLAB_PACKAGE_NAME;
+  }
+
+  if (gitlab && isObject(gitlab)) {
+    return [GITLAB_PACKAGE_NAME, gitlab];
+  }
+
+  return [
+    GITHUB_PACKAGE_NAME,
+    {
+      successComment: `:tada: This \${issue.pull_request ? 'pull request' : 'issue'} is included in version ${builderContext.target.project}@\${nextRelease.version} :tada:
+
+The release is available on [GitHub release](<github_release_url>)`,
+      releasedLabels: [
+        `released<%= nextRelease.channel ? " on @\${nextRelease.channel}" : "" %>`,
+        builderContext.target.project
+      ]
+    }
+  ];
+}
 
 export async function runRelease(
-  { npm: { pkgRoot }, dryRun, publishable }: Schema,
+  options: Schema,
   builderContext: BuilderContext
 ): Promise<BuilderOutput> {
+  const {
+    npm: { pkgRoot },
+    dryRun,
+    publishable
+  } = options;
+
   const { project } = builderContext.target;
 
   const { outputPath } = await builderContext
@@ -151,18 +187,7 @@ export async function runRelease(
         publishable
           ? ['@semantic-release/npm', { pkgRoot: publishPath }]
           : null,
-        [
-          '@semantic-release/github',
-          {
-            successComment: `:tada: This \${issue.pull_request ? 'pull request' : 'issue'} is included in version ${project}@\${nextRelease.version} :tada:
-
-The release is available on [GitHub release](<github_release_url>)`,
-            releasedLabels: [
-              `released<%= nextRelease.channel ? " on @\${nextRelease.channel}" : "" %>`,
-              project
-            ]
-          }
-        ]
+        getPlatformPlugin(options, builderContext)
       ].filter(plugin => !!plugin) as PluginSpec[]
     },
     {
@@ -205,6 +230,6 @@ The release is available on [GitHub release](<github_release_url>)`,
     });
 }
 
-export const FirebaseDeployBuilder = createBuilder(runRelease);
+export const SemrelBuilder = createBuilder(runRelease);
 
-export default FirebaseDeployBuilder;
+export default SemrelBuilder;
