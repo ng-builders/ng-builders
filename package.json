@@ -72,7 +72,7 @@
     "jest": "25.5.4",
     "jest-preset-angular": "8.2.0",
     "prettier": "1.19.1",
-    "semantic-release": "^17.4.0",
+    "semantic-release": "^17.4.1",
     "stream-buffers": "^3.0.2",
     "ts-jest": "25.5.1",
     "ts-node": "~9.1.1",
