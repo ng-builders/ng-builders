@@ -20,6 +20,37 @@
       "type": "boolean",
       "default": true
     },
+    "branches": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "prerelease": {
+                "type": "boolean",
+                "default": false
+              }
+            },
+            "required": ["name"]
+          }
+        ]
+      },
+      "default": [
+        "+([0-9])?(.{+([0-9]),x}).x",
+        "master",
+        "next",
+        "next-major",
+        { "name": "beta", "prerelease": true },
+        { "name": "alpha", "prerelease": true }
+      ]
+    },
     "gitlab": {
       "oneOf": [
         {

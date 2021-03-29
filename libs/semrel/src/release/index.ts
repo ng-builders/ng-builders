@@ -41,7 +41,8 @@ export async function runRelease(
   const {
     npm: { pkgRoot },
     dryRun,
-    publishable
+    publishable,
+    branches
   } = options;
 
   const { project } = builderContext.target;
@@ -72,14 +73,7 @@ export async function runRelease(
   return semanticRelease(
     {
       tagFormat: `${project}@\${version}`,
-      branches: [
-        '+([0-9])?(.{+([0-9]),x}).x',
-        'master',
-        'next',
-        'next-major',
-        { name: 'beta', prerelease: true },
-        { name: 'alpha', prerelease: true }
-      ],
+      branches,
       extends: undefined,
       dryRun,
       plugins: [

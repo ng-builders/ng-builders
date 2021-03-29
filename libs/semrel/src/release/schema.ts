@@ -11,4 +11,5 @@ export interface Schema extends JsonObject {
         gitlabApiPathPrefix?: string;
         assets?: Array<{ path: string; label?: string }>;
       };
+  branches: Array<string | { name: string; prerelease?: boolean }>;
 }
