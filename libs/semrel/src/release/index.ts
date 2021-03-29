@@ -1,17 +1,71 @@
-import {
-  BuilderContext,
-  BuilderOutputLike,
-  createBuilder
-} from '@angular-devkit/architect';
+import { BuilderContext, createBuilder } from '@angular-devkit/architect';
 import { Schema } from './schema';
-import semanticRelease, { Commit } from 'semantic-release';
+import semanticRelease, { Commit, PluginSpec } from 'semantic-release';
 import { WritableStreamBuffer } from 'stream-buffers';
+import { BuilderOutput } from '@angular-devkit/architect/src/api';
+import { isObject } from 'util';
 
-export function runRelease(
-  { npm: { pkgRoot }, dryRun }: Schema,
+const GITLAB_PACKAGE_NAME = '@semantic-release/gitlab';
+const GITHUB_PACKAGE_NAME = '@semantic-release/github';
+
+function getPlatformPlugin(
+  { gitlab }: Schema,
   builderContext: BuilderContext
-): BuilderOutputLike {
+): PluginSpec {
+  if (gitlab === true) {
+    return GITLAB_PACKAGE_NAME;
+  }
+
+  if (gitlab && isObject(gitlab)) {
+    return [GITLAB_PACKAGE_NAME, gitlab];
+  }
+
+  return [
+    GITHUB_PACKAGE_NAME,
+    {
+      successComment: `:tada: This \${issue.pull_request ? 'pull request' : 'issue'} is included in version ${builderContext.target.project}@\${nextRelease.version} :tada:
+
+The release is available on [GitHub release](<github_release_url>)`,
+      releasedLabels: [
+        `released<%= nextRelease.channel ? " on @\${nextRelease.channel}" : "" %>`,
+        builderContext.target.project
+      ]
+    }
+  ];
+}
+
+export async function runRelease(
+  options: Schema,
+  builderContext: BuilderContext
+): Promise<BuilderOutput> {
+  const {
+    npm: { pkgRoot },
+    dryRun,
+    publishable,
+    branches
+  } = options;
+
   const { project } = builderContext.target;
+
+  const { outputPath } = await builderContext
+    .getTargetOptions({
+      project,
+      target: 'build'
+    })
+    .catch(() => ({ outputPath: null }));
+
+  const publishPath = outputPath ?? pkgRoot;
+
+  if (publishable && !publishPath) {
+    return {
+      success: false,
+      error: `Builder can't detect output path for the '${project}' project automatically. Please, provide the 'npm.pkgRoot' option`
+    };
+  } else if (publishable) {
+    builderContext.logger.info(
+      `The directory ${publishPath} will be used for publishing`
+    );
+  }
 
   const stdoutBuffer = new WritableStreamBuffer();
   const stderrBuffer = new WritableStreamBuffer();
@@ -19,14 +73,7 @@ export function runRelease(
   return semanticRelease(
     {
       tagFormat: `${project}@\${version}`,
-      branches: [
-        '+([0-9])?(.{+([0-9]),x}).x',
-        'master',
-        'next',
-        'next-major',
-        { name: 'beta', prerelease: true },
-        { name: 'alpha', prerelease: true }
-      ],
+      branches,
       extends: undefined,
       dryRun,
       plugins: [
@@ -131,9 +178,11 @@ export function runRelease(
             }
           }
         ],
-        ['@semantic-release/npm', { pkgRoot }],
-        '@semantic-release/github'
-      ]
+        publishable
+          ? ['@semantic-release/npm', { pkgRoot: publishPath }]
+          : null,
+        getPlatformPlugin(options, builderContext)
+      ].filter(plugin => !!plugin) as PluginSpec[]
     },
     {
       env: { ...process.env },
@@ -150,9 +199,6 @@ export function runRelease(
 
         builderContext.logger.info(
           `The '${project}' project released with version ${version}`
-        );
-        builderContext.logger.info(
-          stdoutBuffer.getContentsAsString() as string
         );
       } else {
         builderContext.logger.info(
@@ -173,11 +219,11 @@ export function runRelease(
 
       return {
         success: false,
-        error: `The automated release failed with ${err}`
+        error: `The automated release failed with error: ${err}`
       };
     });
 }
 
-export const FirebaseDeployBuilder = createBuilder(runRelease);
+export const SemrelBuilder = createBuilder(runRelease);
 
-export default FirebaseDeployBuilder;
+export default SemrelBuilder;
