@@ -41,7 +41,7 @@
     "@angular/router": "^9.1.0",
     "@nrwl/angular": "9.2.3",
     "core-js": "^3.9.1",
-    "rxjs": "^6.6.3",
+    "rxjs": "^6.6.7",
     "zone.js": "^0.10.2"
   },
   "devDependencies": {
@@ -68,7 +68,7 @@
     "dotenv": "8.2.0",
     "eslint": "7.23.0",
     "execa": "^5.0.0",
-    "firebase-tools": "^9.7.0",
+    "firebase-tools": "^9.8.0",
     "jest": "25.5.4",
     "jest-preset-angular": "8.2.0",
     "prettier": "1.19.1",
