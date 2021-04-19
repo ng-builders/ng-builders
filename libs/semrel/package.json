@@ -28,8 +28,7 @@
     "@semantic-release/github": "^7.2.0",
     "@semantic-release/gitlab": "^6.0.9",
     "@semantic-release/npm": "^7.0.10",
-    "@semantic-release/release-notes-generator": "^9.0.1",
-    "stream-buffers": "^3.0.2"
+    "@semantic-release/release-notes-generator": "^9.0.1"
   },
   "peerDependencies": {
     "@angular-devkit/architect": ">0.901.3"

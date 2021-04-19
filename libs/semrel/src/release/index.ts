@@ -1,7 +1,6 @@
 import { BuilderContext, createBuilder } from '@angular-devkit/architect';
 import { Schema } from './schema';
 import semanticRelease, { Commit, PluginSpec } from 'semantic-release';
-import { WritableStreamBuffer } from 'stream-buffers';
 import { BuilderOutput } from '@angular-devkit/architect/src/api';
 import { isObject } from 'util';
 
@@ -65,9 +64,6 @@ export async function runRelease(
       `The directory ${publishPath} will be used for publishing`
     );
   }
-
-  const stdoutBuffer = new WritableStreamBuffer();
-  const stderrBuffer = new WritableStreamBuffer();
 
   return semanticRelease(
     {
@@ -192,9 +188,7 @@ export async function runRelease(
     },
     {
       env: { ...process.env },
-      cwd: '.',
-      stderr: stderrBuffer as any,
-      stdout: stdoutBuffer as any
+      cwd: '.'
     }
   )
     .then(result => {
@@ -210,12 +204,6 @@ export async function runRelease(
         builderContext.logger.info(
           `No new release for the '${project}' project`
         );
-      }
-
-      const errors = stderrBuffer.getContentsAsString('utf8');
-
-      if (errors) {
-        builderContext.logger.error(errors);
       }
 
       return { success: true };
