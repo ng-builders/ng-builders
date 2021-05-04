@@ -62,7 +62,7 @@
     "@types/jest": "26.0.22",
     "@types/node": "~8.9.4",
     "@types/semantic-release": "^17.2.0",
-    "codelyzer": "~6.0.1",
+    "codelyzer": "~6.0.2",
     "cypress": "^4.12.1",
     "dotenv": "8.2.0",
     "eslint": "7.25.0",
