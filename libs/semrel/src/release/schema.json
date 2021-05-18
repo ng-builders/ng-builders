@@ -34,8 +34,20 @@
                 "type": "string"
               },
               "prerelease": {
-                "type": "boolean",
-                "default": false
+                "oneOf": [
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "channel": {
+                "type": "string"
+              },
+              "range": {
+                "type": "string"
               }
             },
             "required": ["name"]
