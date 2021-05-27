@@ -64,7 +64,7 @@
     "@types/semantic-release": "^17.2.0",
     "codelyzer": "~6.0.2",
     "cypress": "^4.12.1",
-    "dotenv": "8.2.0",
+    "dotenv": "10.0.0",
     "eslint": "7.26.0",
     "execa": "^5.0.0",
     "firebase-tools": "^9.11.0",
