@@ -65,7 +65,7 @@
     "codelyzer": "~6.0.2",
     "cypress": "^4.12.1",
     "dotenv": "10.0.0",
-    "eslint": "7.26.0",
+    "eslint": "7.28.0",
     "execa": "^5.0.0",
     "firebase-tools": "^9.11.0",
     "jest": "25.5.4",
