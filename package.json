@@ -39,7 +39,7 @@
     "@angular/platform-browser": "^9.1.0",
     "@angular/platform-browser-dynamic": "^9.1.0",
     "@angular/router": "^9.1.0",
-    "@nrwl/angular": "9.2.3",
+    "@nrwl/angular": "12.3.6",
     "core-js": "^3.12.1",
     "rxjs": "^6.6.7",
     "zone.js": "^0.10.2"
@@ -67,7 +67,7 @@
     "dotenv": "10.0.0",
     "eslint": "7.27.0",
     "execa": "^5.0.0",
-    "firebase-tools": "^9.11.0",
+    "firebase-tools": "^9.12.1",
     "jest": "25.5.4",
     "jest-preset-angular": "8.2.0",
     "prettier": "1.19.1",
