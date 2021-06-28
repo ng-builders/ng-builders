@@ -9,7 +9,7 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
     assignees:
       - "IKatsuba"
 
@@ -17,7 +17,7 @@ updates:
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
     assignees:
       - "IKatsuba"
 
@@ -26,7 +26,7 @@ updates:
   - package-ecosystem: "npm"
     directory: "/libs/build"
     schedule:
-      interval: "daily"
+      interval: "weekly"
     assignees:
       - "IKatsuba"
 
@@ -35,15 +35,15 @@ updates:
   - package-ecosystem: "npm"
     directory: "/libs/firebase"
     schedule:
-      interval: "daily"
+      interval: "weekly"
     assignees:
       - "IKatsuba"
-      
+
 
   # Maintain dependencies for npm
   - package-ecosystem: "npm"
     directory: "/libs/semrel"
     schedule:
-      interval: "daily"
+      interval: "weekly"
     assignees:
       - "IKatsuba"
