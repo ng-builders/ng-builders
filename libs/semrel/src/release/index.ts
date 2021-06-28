@@ -123,7 +123,7 @@ export async function runRelease(
                   commit.type = `Continuous Integration`;
                 }
 
-                if (commit.scope === `*`) {
+                if (commit.scope === `*` || !commit.scope) {
                   commit.scope = ``;
                 }
 
