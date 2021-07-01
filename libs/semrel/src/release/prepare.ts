@@ -14,6 +14,10 @@ export interface Tag {
   project?: string;
 }
 
+export interface SemanticReleaseContext extends Context {
+  branch: { name: string; channel?: string };
+}
+
 export function parseTag(tag: string): Tag {
   const [project, version = project] = tag.split('@');
 
@@ -54,7 +58,7 @@ export function getSortedVersions(
 
 export async function prepare(
   { publishPath }: { publishPath: string },
-  context: Context
+  context: SemanticReleaseContext
 ): Promise<void> {
   const pckg = JSON.parse(
     readFileSync(join(publishPath, 'package.json')).toString()
@@ -69,10 +73,10 @@ export async function prepare(
           concatMap(async ([name]) => {
             const [, project = name] = name.split('/');
 
-            const tags = await getTags((context as any).branch.name);
+            const tags = await getTags(context.branch.name);
             const [latest] = await getSortedVersions(tags, {
               project,
-              channel: (context as any).branch.channel
+              channel: context.branch.channel
             });
 
             pckg[type][name] = latest;
