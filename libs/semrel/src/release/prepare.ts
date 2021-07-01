@@ -6,18 +6,18 @@ import { from } from 'rxjs';
 import { concatMap, filter } from 'rxjs/operators';
 import semver from 'semver';
 
+export const STABLE_CHANNEL = 'stable';
+
 export interface Tag {
   version: string;
-  channel: string | 'stable';
+  channel: string;
   project?: string;
 }
 
 export function parseTag(tag: string): Tag {
   const [project, version = project] = tag.split('@');
 
-  const {
-    prerelease: [channel = 'stable']
-  } = semver.parse(version) ?? { prerelease: [] };
+  const channel = semver.parse(version)?.prerelease?.[0] ?? STABLE_CHANNEL;
 
   return {
     project,
@@ -38,13 +38,14 @@ export async function getTags(branch: string): Promise<Tag[]> {
 
 export function getSortedVersions(
   tags: Tag[],
-  { project, channel = 'stable' }: { project: string; channel?: string }
+  { project, channel = STABLE_CHANNEL }: { project: string; channel?: string }
 ): string[] {
   const versions = tags
     .filter(tag => tag.project === project && tag.channel === channel)
     .map(tag => tag.version);
 
-  if (channel !== 'stable' && !versions.length) {
+  if (channel !== STABLE_CHANNEL && !versions.length) {
+    // try to find some stable versions
     return getSortedVersions(tags, { project });
   }
 
