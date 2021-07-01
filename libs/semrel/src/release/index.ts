@@ -1,37 +1,13 @@
 import { BuilderContext, createBuilder } from '@angular-devkit/architect';
 import { Schema } from './schema';
-import semanticRelease, { Commit, PluginSpec } from 'semantic-release';
+import semanticRelease from 'semantic-release';
 import { BuilderOutput } from '@angular-devkit/architect/src/api';
-import { isObject } from 'util';
-
-const GITLAB_PACKAGE_NAME = '@semantic-release/gitlab';
-const GITHUB_PACKAGE_NAME = '@semantic-release/github';
-
-function getPlatformPlugin(
-  { gitlab }: Schema,
-  builderContext: BuilderContext
-): PluginSpec {
-  if (gitlab === true) {
-    return GITLAB_PACKAGE_NAME;
-  }
-
-  if (gitlab && isObject(gitlab)) {
-    return [GITLAB_PACKAGE_NAME, gitlab];
-  }
-
-  return [
-    GITHUB_PACKAGE_NAME,
-    {
-      successComment: `:tada: This \${issue.pull_request ? 'pull request' : 'issue'} is included in version ${builderContext.target.project}@\${nextRelease.version} :tada:
-
-The release is available on [GitHub release](<github_release_url>)`,
-      releasedLabels: [
-        `released<%= nextRelease.channel ? " on @\${nextRelease.channel}" : "" %>`,
-        builderContext.target.project
-      ]
-    }
-  ];
-}
+import { releaseNotesGenerator } from './release-notes-generator';
+import { commitAnalyzer } from './commit-analyzer';
+import { npm } from './npm';
+import { plugins } from './plugins';
+import { preparePlugin } from './prepare';
+import { platformPlugin } from './platform-plugin';
 
 export async function runRelease(
   options: Schema,
@@ -72,113 +48,13 @@ export async function runRelease(
       branches,
       extends: undefined,
       dryRun,
-      plugins: [
-        [
-          '@semantic-release/commit-analyzer',
-          {
-            releaseRules: [
-              { type: 'feat', scope: project, release: 'minor' },
-              { type: 'fix', scope: project, release: 'patch' },
-              { type: 'perf', scope: project, release: 'patch' }
-            ],
-            parserOpts: {
-              headerPattern: new RegExp(`^(\\w*)(?:\\((${project})\\))?: (.*)$`)
-            }
-          }
-        ],
-        [
-          '@semantic-release/release-notes-generator',
-          {
-            writerOpts: {
-              transform(commit, context): void | Commit {
-                let discard = true;
-                const issues = [];
-
-                commit.notes.forEach(note => {
-                  note.title = `BREAKING CHANGES`;
-                  discard = false;
-                });
-
-                if (commit.type === `feat`) {
-                  commit.type = `Features`;
-                } else if (commit.type === `fix`) {
-                  commit.type = `Bug Fixes`;
-                } else if (commit.type === `perf`) {
-                  commit.type = `Performance Improvements`;
-                } else if (commit.type === `revert` || commit.revert) {
-                  commit.type = `Reverts`;
-                } else if (discard) {
-                  return;
-                } else if (commit.type === `docs`) {
-                  commit.type = `Documentation`;
-                } else if (commit.type === `style`) {
-                  commit.type = `Styles`;
-                } else if (commit.type === `refactor`) {
-                  commit.type = `Code Refactoring`;
-                } else if (commit.type === `test`) {
-                  commit.type = `Tests`;
-                } else if (commit.type === `build`) {
-                  commit.type = `Build System`;
-                } else if (commit.type === `ci`) {
-                  commit.type = `Continuous Integration`;
-                }
-
-                if (commit.scope === `*` || !commit.scope) {
-                  commit.scope = ``;
-                }
-
-                if (typeof commit.hash === `string`) {
-                  commit.shortHash = commit.hash.substring(0, 7);
-                }
-
-                if (typeof commit.subject === `string`) {
-                  let url = context.repository
-                    ? `${context.host}/${context.owner}/${context.repository}`
-                    : context.repoUrl;
-                  if (url) {
-                    url = `${url}/issues/`;
-                    // Issue URLs.
-                    commit.subject = commit.subject.replace(
-                      /#([0-9]+)/g,
-                      (_, issue) => {
-                        issues.push(issue);
-                        return `[#${issue}](${url}${issue})`;
-                      }
-                    );
-                  }
-                  if (context.host) {
-                    // User URLs.
-                    commit.subject = commit.subject.replace(
-                      /\B@([a-z0-9](?:-?[a-z0-9/]){0,38})/g,
-                      (_, username) => {
-                        if (username.includes('/')) {
-                          return `@${username}`;
-                        }
-
-                        return `[@${username}](${context.host}/${username})`;
-                      }
-                    );
-                  }
-                }
-
-                commit.references = commit.references.filter(reference => {
-                  return issues.indexOf(reference.issue) === -1;
-                });
-
-                if (commit.scope !== project && commit.scope !== '') {
-                  return;
-                }
-
-                return commit;
-              }
-            }
-          }
-        ],
-        publishable
-          ? ['@semantic-release/npm', { pkgRoot: publishPath }]
-          : null,
-        getPlatformPlugin(options, builderContext)
-      ].filter(plugin => !!plugin) as PluginSpec[]
+      plugins: plugins([
+        preparePlugin({ publishable, publishPath }),
+        commitAnalyzer({ project }),
+        releaseNotesGenerator({ project }),
+        npm({ publishable, publishPath }),
+        platformPlugin(options, builderContext)
+      ])
     },
     {
       env: { ...process.env },

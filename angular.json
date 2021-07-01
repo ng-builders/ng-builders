@@ -186,7 +186,9 @@
         },
         "release": {
           "builder": "./dist/libs/semrel:release",
-          "options": {}
+          "options": {
+            "dryRun": true
+          }
         },
         "build": {
           "builder": "@nrwl/node:package",
@@ -242,7 +244,9 @@
         },
         "release": {
           "builder": "./dist/libs/semrel:release",
-          "options": {}
+          "options": {
+            "dryRun": true
+          }
         },
         "build": {
           "builder": "@nrwl/node:package",
@@ -298,7 +302,9 @@
         },
         "release": {
           "builder": "./dist/libs/semrel:release",
-          "options": {}
+          "options": {
+            "dryRun": true
+          }
         },
         "build": {
           "builder": "@nrwl/node:package",
