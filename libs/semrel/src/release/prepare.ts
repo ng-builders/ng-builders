@@ -51,7 +51,7 @@ export function getSortedVersions(
   return semver.rsort(versions);
 }
 
-export async function prepare(
+export async function analyzeCommits(
   { publishPath }: { publishPath: string },
   context: Context
 ): Promise<void> {
