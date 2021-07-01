@@ -42,7 +42,12 @@ jest.doMock('fs', () => ({
 }));
 
 import { writeFileSync } from 'fs';
-import { getSortedVersions, getTags, prepare } from './prepare';
+import {
+  getSortedVersions,
+  getTags,
+  prepare,
+  SemanticReleaseContext
+} from './prepare';
 import { Context } from 'semantic-release';
 
 describe('getTags', () => {
@@ -232,7 +237,7 @@ describe('prepare', () => {
   it('should update versions to stable', async () => {
     await prepare({ publishPath: '' }, ({
       branch: { name: 'branch' }
-    } as unknown) as Context);
+    } as unknown) as SemanticReleaseContext);
 
     expect(writeFileSync).toBeCalledWith(
       'package.json',
@@ -253,7 +258,7 @@ describe('prepare', () => {
   it('should update version to rc', async () => {
     await prepare({ publishPath: '' }, ({
       branch: { name: 'branch', channel: 'rc' }
-    } as unknown) as Context);
+    } as unknown) as SemanticReleaseContext);
 
     expect(writeFileSync).toBeCalledWith(
       'package.json',
