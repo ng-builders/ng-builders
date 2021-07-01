@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "execa": "^5.0.0",
-    "@ng-builders/build": "1.3.4"
+    "@ng-builders/build": "0.0.0-development"
   },
   "peerDependencies": {
     "firebase-tools": ">8.4.3",

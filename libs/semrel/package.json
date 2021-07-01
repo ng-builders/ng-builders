@@ -28,7 +28,8 @@
     "@semantic-release/github": "^7.2.0",
     "@semantic-release/gitlab": "^6.0.9",
     "@semantic-release/npm": "^7.0.10",
-    "@semantic-release/release-notes-generator": "^9.0.1"
+    "@semantic-release/release-notes-generator": "^9.0.1",
+    "execa": "^5.0.0"
   },
   "peerDependencies": {
     "@angular-devkit/architect": ">0.901.3"
