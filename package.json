@@ -39,7 +39,7 @@
     "@angular/platform-browser": "^9.1.0",
     "@angular/platform-browser-dynamic": "^9.1.0",
     "@angular/router": "^9.1.0",
-    "@nrwl/angular": "9.2.3",
+    "@nrwl/angular": "12.7.1",
     "core-js": "^3.12.1",
     "rxjs": "^6.6.7",
     "zone.js": "^0.10.2"
